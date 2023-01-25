@@ -12,6 +12,7 @@ public class Employee {
 		} else if(appointment.getPrice() <= patient.getMoney()) {
 			// customer pays in cash
 			processTransaction(patient, appointment);
+			patient.setMoney(patient.getMoney()- appointment.getPrice());
 		} else {
 			System.out.println("Customer will need more money to book " + appointment);
 		}
@@ -23,6 +24,6 @@ public class Employee {
 	}
 
 	public void processTransaction(Patient patient, Appointment appointment) {
-		System.out.println(patient.getName() + " the patient " + ", living at " + patient.getAddress() + ", has purchased a " + appointment.getType() + " for the price of " + appointment.getPrice());
+		System.out.println(patient.getName() + " the patient" + ", living at " + patient.getAddress() + ", has purchased a " + appointment.getType() + " for the price of " + appointment.getPrice());
 	}
 }
