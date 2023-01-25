@@ -9,6 +9,7 @@ public class Patient {
 		private String address;
 		private double money;
 
+		
 		public Patient(String name, String address, double money) {
 			super();
 			this.name = name;
