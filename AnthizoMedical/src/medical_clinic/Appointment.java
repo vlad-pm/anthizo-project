@@ -1,77 +1,30 @@
-package medical_clinic;
-
-import medical_clinic.Patient;
-import java.util.Random;
-import java.util.Objects;
-import medical_clinic.Appointment;
-import medical_clinic.Employee;
-
-
+import java.time.LocalDateTime;
 
 public class Appointment {
+    private Doctor doctor;
+    private Patient patient;
+    private LocalDateTime dateTime;
 
-	private String date;
-	private String time;
-	private String type;
-	private String doctor;
-	private double price;
-	
-	public Appointment(String date, String time, String type, String doctor, double price) {
-		super();
-		this.date = date;
-		this.time = time;
-		this.type = type;
-		this.doctor = doctor;
-		this.price = price;
-	}
-	
-	public String getDate() {
-		return date;
-	}
+    public Appointment(Doctor doctor, Patient patient, LocalDateTime dateTime) {
+        this.doctor = doctor;
+        this.patient = patient;
+        this.dateTime = dateTime;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public Doctor getDoctor() {
+        return doctor;
+    }
 
-	public String getTime() {
-		return time;
-	}
+    public Patient getPatient() {
+        return patient;
+    }
 
-	public void setTime(String time) {
-		this.time = time;
-	}
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(String doctor) {
-		this.doctor = doctor;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(date, time, type, price, doctor);
-	}
-	
-	@Override
-	public String toString() {
-		return "Appointment [date=" + date + ", time=" + time + ", type=" + type + ", doctor=" + doctor + ", price=" + price + "]";
-	}
+    @Override
+    public String toString() {
+        return doctor.getName() + " will see " + patient.getName() + " on " + dateTime;
+    }
 }
