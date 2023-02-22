@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
@@ -42,13 +43,26 @@ public class MedicalSystemGUI extends JFrame {
         JButton bookAppointmentButton = new JButton("Book Appointment"); // creates book appointment button
         bookAppointmentButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showAppointmentDialog();
+            	if (doctors.isEmpty() && patients.isEmpty()){
+            		JOptionPane.showMessageDialog(null, "Please create doctors and patients so that you can access this functionality.");
+            	} else if (doctors.isEmpty()) {
+            		JOptionPane.showMessageDialog(null, "There are currently no doctors stored in the database. Please create some to be able to book appointments!");
+            	} else if (patients.isEmpty()) {
+            		JOptionPane.showMessageDialog(null, "There are currently no patients stored in the database. Please create some to be able to book appointments!");
+            	} else {
+            		showAppointmentDialog();        
+            	}
             }
         });
         JButton btnViewAppointments = new JButton("View Appointments");
         btnViewAppointments.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                viewAppointmentsDialog(); // when button clicked, summon the dialogue 
+            	if (appointments.isEmpty()) {
+            		JOptionPane.showMessageDialog(null, "There are no appointments to display!");
+            	} else {
+            		viewAppointmentsDialog(); // when button clicked, summon the dialogue 
+            	}
+                
             }
         });
 
@@ -134,6 +148,8 @@ public class MedicalSystemGUI extends JFrame {
             LocalDate date = LocalDate.parse(dateTextField.getText());
             LocalTime time = LocalTime.parse(timeTextField.getText());
             LocalDateTime appointmentDateTime = LocalDateTime.of(date, time);
+            
+            
             Appointment appointment = new Appointment(doctor, patient, appointmentDateTime);
             appointments.add(appointment);
 
@@ -144,6 +160,26 @@ public class MedicalSystemGUI extends JFrame {
         }
     }
     
+    public void changeTable(JTable table, int column_index) {
+    	table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
+    		@Override
+    		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    			final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    			LocalDate st_val = LocalDate.parse(table.getValueAt(column, 3).toString());
+    			LocalDate req_val = LocalDate.now();
+    			if (st_val == req_val) {
+    				c.setBackground(Color.RED);
+    			} else {
+    				c.setBackground(Color.WHITE);
+    			}
+    			
+    			return c;
+    			
+    		}
+    	});
+    }
+    
+    
     private void viewAppointmentsDialog() {
         JFrame frame = new JFrame("Appointments");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -153,8 +189,9 @@ public class MedicalSystemGUI extends JFrame {
         // Create a table to display the appointments
         String[] columnNames = {"Patient Name", "Doctor Name", "Date & Time"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        
+        
         JTable table = new JTable(model);
-
         // Populate the table with appointments
         for (Appointment appointment : appointments) {
             String[] rowData = {
@@ -164,7 +201,10 @@ public class MedicalSystemGUI extends JFrame {
             };
             model.addRow(rowData);
         }
-
+        
+        // Change colour of today's appointments
+        
+        
         // Add the table to the frame
         JScrollPane scrollPane = new JScrollPane(table);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
