@@ -1,58 +1,24 @@
-package medical_clinic;
-
-import medical_clinic.Employee;
-import medical_clinic.Appointment;
+import java.time.LocalDate;
 
 public class Patient {
-		
-		private String name;
-		private String address;
-		private double money;
+    private String name;
+    private LocalDate birthdate;
 
-		
-		public Patient(String name, String address, double money) {
-			super();
-			this.name = name;
-			this.address = address;
-			this.money = money;
-		}
+    public Patient(String name, LocalDate birthdate) {
+        this.name = name;
+        this.birthdate = birthdate;
+    }
 
-		public double getMoney() {
-			return money;
-		}
+    public String getName() {
+        return name;
+    }
 
-		public void setMoney(double money) {
-			money += 500;
-			this.money = money;
-		}
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
 
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getAddress() {
-			return address;
-		}
-
-		public void setAddress(String address) {
-			address += " London";
-			this.address = address;
-		}
-		
-		public void bookAppointment(Appointment appointment, Employee emp, boolean finance) {
-			emp.handlePatient(this, finance, appointment);
-		}
-
-		@Override
-		public String toString() {
-			return "Patient [name=" + name + ", address=" + address + ", money=" + money + "]";
-		}
-		
-		
-	}
-
-	
+    @Override
+    public String toString() {
+        return name + " (born " + birthdate + ")";
+    }
+}
